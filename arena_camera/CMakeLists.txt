@@ -45,7 +45,7 @@ endif()
 
 set(CATKIN_COMPONENTS
      actionlib
-     camera_control_msgs # arena_camera depends on this upper custom msg package 
+     camera_control_msgs # arena_camera depends on this upper custom msg package
      camera_info_manager
      cv_bridge
      diagnostic_updater
@@ -53,7 +53,7 @@ set(CATKIN_COMPONENTS
      image_transport
      roscpp
      roslint
-     roslaunch 
+     roslaunch
      sensor_msgs
 )
 
@@ -61,9 +61,9 @@ set(CATKIN_COMPONENTS
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(
-    catkin 
+    catkin
         REQUIRED
-    COMPONENTS 
+    COMPONENTS
         ${CATKIN_COMPONENTS}
 )
 
@@ -95,7 +95,7 @@ catkin_python_setup()
 #
 # -----------------------------------------------------------------------------
 
-# N/A 
+# N/A
 
 
 # -----------------------------------------------------------------------------
@@ -112,9 +112,9 @@ catkin_package(
         ${PROJECT_NAME}
     CATKIN_DEPENDS
         ${CATKIN_COMPONENTS} # package dep for build/run
-    # DEPENDS # sys dep for build/run 
-    #    <> 
-    #    <> 
+    # DEPENDS # sys dep for build/run
+    #    <>
+    #    <>
 )
 
 #7
@@ -167,7 +167,7 @@ add_executable(
 # needed ".h"s
 target_include_directories(
     ${arena_camera_node_name}
-        PRIVATE ${catkin_INCLUDE_DIRS} 
+        PRIVATE ${catkin_INCLUDE_DIRS}
         PRIVATE ${arena_sdk_INCLUDE_DIRS}
         PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
@@ -182,10 +182,10 @@ target_link_libraries(
 add_dependencies(
     ${arena_camera_node_name}
         # because this uses one of the catkin componenets which is camera_control_msg
-        ${catkin_EXPORTED_TARGETS} 
+        ${catkin_EXPORTED_TARGETS}
 )
 
-# target_link_directories NOT NEEDED as arena_sdk_LIBRARIES is 
+# target_link_directories NOT NEEDED as arena_sdk_LIBRARIES is
 # define with absolute paths
 
 
@@ -216,7 +216,7 @@ target_link_libraries(
 )
 
 
-# target_link_directories NOT NEEDED as arena_sdk_LIBRARIES is 
+# target_link_directories NOT NEEDED as arena_sdk_LIBRARIES is
 # define with absolute paths
 
 
