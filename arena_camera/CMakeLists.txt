@@ -143,7 +143,7 @@ roslaunch_add_file_check(launch)
 
 
 #  flags for all C++ targets
-add_definitions("-std=gnu++11")
+add_definitions("-std=gnu++17")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
@@ -188,6 +188,31 @@ add_dependencies(
 # target_link_directories NOT NEEDED as arena_sdk_LIBRARIES is
 # define with absolute paths
 
+add_executable(
+    ptpsync_multi  # runs by rosrun
+        src/ptpsync_multi.cpp
+)
+
+# needed ".h"s
+target_include_directories(
+    ptpsync_multi
+        PRIVATE ${catkin_INCLUDE_DIRS}
+        PRIVATE ${arena_sdk_INCLUDE_DIRS}
+        PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+# needed ".so"s
+target_link_libraries(
+    ptpsync_multi
+        ${catkin_LIBRARIES}
+        ${arena_sdk_LIBRARIES}
+)
+
+add_dependencies(
+    ptpsync_multi
+        # because this uses one of the catkin componenets which is camera_control_msg
+        ${catkin_EXPORTED_TARGETS}
+)
 
 #
 # WRITE_DEVICE_USER_ID_TO_CAMERA
