@@ -362,7 +362,7 @@ bool ArenaCameraNode::setImageEncoding(const std::string& ros_encoding)
                                                       << "' to a corresponding GenAPI encoding! Will use current "
                                                       << "pixel format ( "
                                                       << fallbackPixelFormat
-                                                      << " ) as fallback!"); 
+                                                      << " ) as fallback!");
       return false;
     }
   }
@@ -411,6 +411,42 @@ bool ArenaCameraNode::startGrabbing()
     }
 
     //
+    // PACKET CONFIGURATION
+    //
+    if (arena_camera_parameter_set_.stream_auto_negotiate_packet_size_)
+    {
+      Arena::SetNodeValue<bool>(pNodeMap, "StreamAutoNegotiatePacketSize",
+        arena_camera_parameter_set_.stream_auto_negotiate_packet_size_);
+    }
+
+    if (arena_camera_parameter_set_.stream_packet_resend_enable_)
+    {
+      Arena::SetNodeValue<bool>(pNodeMap, "StreamPacketResendEnable",
+        arena_camera_parameter_set_.stream_packet_resend_enable_);
+    }
+
+    //
+    // MTU
+    //
+    if (!arena_camera_parameter_set_.stream_auto_negotiate_packet_size_)
+    {
+      Arena::SetNodeValue<int64_t>(pNodeMap, "DeviceStreamChannelPacketSize",
+        arena_camera_parameter_set_.mtu_size_);
+      ROS_INFO("Manually set MTU size to %d", arena_camera_parameter_set_.mtu_size_);
+    }
+
+    //
+    // PACKET DELAY
+    //
+    GenApi::CIntegerPtr pStreamChannelPacketDelay = pNodeMap->GetNode("GevSCPD");
+    pStreamChannelPacketDelay->SetValue(arena_camera_parameter_set_.inter_pkg_delay_);
+    ROS_INFO("GevSCPD to %ld", Arena::GetNodeValue<int64_t>(pNodeMap, "GevSCPD"));
+
+    GenApi::CIntegerPtr pStreamChannelFrameTransmissionDelay = pNodeMap->GetNode("GevSCFTD");
+    pStreamChannelFrameTransmissionDelay->SetValue(arena_camera_parameter_set_.frame_transmission_delay_);
+    ROS_INFO("GevSCFTD to %ld", Arena::GetNodeValue<int64_t>(pNodeMap, "GevSCFTD"));
+
+    //
     // FRAMERATE
     //
     auto cmdlnParamFrameRate = arena_camera_parameter_set_.frameRate();
@@ -421,13 +457,13 @@ bool ArenaCameraNode::startGrabbing()
     if (cmdlnParamFrameRate >= maximumFrameRate)
     {
       arena_camera_parameter_set_.setFrameRate(nh_, maximumFrameRate);
-      
+
       ROS_WARN("Desired framerate %.2f Hz (rounded) is higher than max possible. Will limit "
               "framerate device max : %.2f Hz (rounded)", cmdlnParamFrameRate, maximumFrameRate);
     }
     // special case:
     // dues to inacurate float comparision we skip. If we set it it might
-    // throw becase it could be a lil larger than the max avoid the exception (double accuracy issue when setting the node) 
+    // throw becase it could be a lil larger than the max avoid the exception (double accuracy issue when setting the node)
     // request frame rate very close to device max
     else if (cmdlnParamFrameRate == maximumFrameRate){
       ROS_INFO("Framerate is %.2f Hz", cmdlnParamFrameRate);
@@ -436,13 +472,13 @@ bool ArenaCameraNode::startGrabbing()
     else if (cmdlnParamFrameRate == -1) // speacial for max frame rate available
     {
       arena_camera_parameter_set_.setFrameRate(nh_, maximumFrameRate);
-      
+
       ROS_WARN("Framerate is set to device max : %.2f Hz", maximumFrameRate);
     }
     // requested framerate is valid so we set it to the device
     else{
       Arena::SetNodeValue<bool>(pNodeMap, "AcquisitionFrameRateEnable", true);
-      Arena::SetNodeValue<double>(pNodeMap, "AcquisitionFrameRate" , 
+      Arena::SetNodeValue<double>(pNodeMap, "AcquisitionFrameRate" ,
                                       cmdlnParamFrameRate);
       ROS_INFO("Framerate is set to: %.2f Hz", cmdlnParamFrameRate);
     }
@@ -471,7 +507,7 @@ bool ArenaCameraNode::startGrabbing()
       float reached_exposure;
       if (setExposure(arena_camera_parameter_set_.exposure_, reached_exposure))
       {
-        // Note: ont update the ros param because it might keep 
+        // Note: ont update the ros param because it might keep
         // decreasing or incresing overtime when rerun
         ROS_INFO_STREAM("Setting exposure to " << arena_camera_parameter_set_.exposure_
                                                << ", reached: " << reached_exposure);
@@ -481,7 +517,7 @@ bool ArenaCameraNode::startGrabbing()
     //
     // GAIN
     //
-    
+
     // gain_auto_ will be already set to false if gain_given_ is true
     // read params () solved the priority between them
     if (arena_camera_parameter_set_.gain_auto_)
@@ -502,7 +538,7 @@ bool ArenaCameraNode::startGrabbing()
       float reached_gain;
       if (setGain(arena_camera_parameter_set_.gain_, reached_gain))
       {
-        // Note: ont update the ros param because it might keep 
+        // Note: ont update the ros param because it might keep
         // decreasing or incresing overtime when rerun
         ROS_INFO_STREAM("Setting gain to: " << arena_camera_parameter_set_.gain_ << ", reached: " << reached_gain);
       }

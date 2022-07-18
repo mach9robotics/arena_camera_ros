@@ -50,7 +50,7 @@ frame_rate: 10.0
 ##########################################################################
 
 #  The exposure time in microseconds to be set after opening the camera.
-exposure: 13000.0
+exposure: 5000.0
 
 #  The target gain in percent of the maximal value the camera supports
 #  For USB-Cameras, the gain is in dB, for GigE-Cameras it is given in so
@@ -106,16 +106,24 @@ gain_auto: false
 #  A typical value for this upper bound is ~2000000us.
 # auto_exposure_upper_limit: 2000000.0
 
-#  The MTU size. Only used for GigE cameras.
-#  To prevent lost frames configure the camera has to be configured
-#  with the MTU size the network card supports. A value greater 3000
-#  should be good (1500 for RaspberryPI)
-# gige:
-#  mtu_size: 3000
+gige:
+  #  The MTU size. Only used for GigE cameras.
+  #  To prevent lost frames configure the camera has to be configured
+  #  with the MTU size the network card supports. A value greater 3000
+  #  should be good (1500 for RaspberryPI)
+  mtu_size: 1500
 
-#  Only used for GigE cameras.
-#  The inter-package delay in ticks to prevent lost frames.
-#  For most of GigE-Cameras, a value of 1000 is reasonable.
-#  For cameras used on a RaspberryPI this value should be set to 11772.
-# gige:
-#  inter_pkg_delay: 1000
+  #  SCFTD. Only used for GigE cameras.
+  #  The inter-package delay in ticks to prevent lost frames.
+  #  For most of GigE-Cameras, a value of 1000 is reasonable.
+  #  For cameras used on a RaspberryPI this value should be set to 11772.
+  frame_transmission_delay: 0
+
+  #  SCPD. Only used for GigE cameras.
+  #  The inter-package delay in ticks to prevent lost frames.
+  #  For most of GigE-Cameras, a value of 1000 is reasonable.
+  #  For cameras used on a RaspberryPI this value should be set to 11772.
+  inter_pkg_delay: 0
+
+  stream_auto_negotiate_packet_size: false
+  stream_packet_resend_enable: false

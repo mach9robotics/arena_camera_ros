@@ -250,12 +250,31 @@ public:
   int mtu_size_;
 
   /**
-   * The inter-package delay in ticks. Only used for GigE cameras.
-   * To prevent lost frames it should be greater 0.
-   * For most of GigE-Cameras, a value of 1000 is reasonable.
-   * For GigE-Cameras used on a RaspberryPI this value should be set to 11772
+   * SCFTD
+   * Sets a delay in ticks between when a camera would normally begin
+   * transmitting an acquired frame and when it actually begins transmission.
+   * In most cases, this parameter should be set to zero.
+   * However, if your network hardware can't handle spikes in network traffic
+   * (e.g., if you are triggering multiple cameras simultaneously),
+   * you can use the frame transmission delay parameter to stagger the start
+   * of image data transmissions from each camera.
+   * Automated detection is now feasible because of the AGI module.
+   */
+  int frame_transmission_delay_;
+
+  /**
+   * SCPD
+   * Sets the inter-packet delay in ticks.
+   * If your network hardware can't handle the incoming packet rate,
+   * it is useful to increase the delay between packet transmissions.
+   * This may reduce the amount of dropped packets.
+   * Note that this also slows the data transmission. As a result,
+   * the camera's frame rate may decrease.
    */
   int inter_pkg_delay_;
+
+  bool stream_auto_negotiate_packet_size_;
+  bool stream_packet_resend_enable_;
 
   /**
    Shutter mode

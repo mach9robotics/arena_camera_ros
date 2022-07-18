@@ -28,7 +28,7 @@
  *****************************************************************************/
 
 // STD
-#include <ios> // std::boolalpha 
+#include <ios> // std::boolalpha
 
 // ROS
 #include <sensor_msgs/image_encodings.h>
@@ -70,7 +70,10 @@ ArenaCameraParameter::ArenaCameraParameter()
   exposure_search_timeout_(5.)
   , auto_exp_upper_lim_(0.0)
   , mtu_size_(3000)
-  , inter_pkg_delay_(1000)
+  , frame_transmission_delay_(0)
+  , inter_pkg_delay_(0)
+  , stream_auto_negotiate_packet_size_(true)
+  , stream_packet_resend_enable_(true)
   , shutter_mode_(SM_DEFAULT)
   , auto_flash_(false)
 {
@@ -202,7 +205,7 @@ void ArenaCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
     nh.getParam("brightness_continuous", brightness_continuous_);
     ROS_DEBUG_STREAM("brightness is continuous");
   }
-  
+
   // ignore exposure_auto ?
   /*
     exposure_given | exposure_auto_given_ | exposure_auto_ | action           |
@@ -211,7 +214,7 @@ void ArenaCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
     1     F                 F                       F      | default value issue  |
 
     2     F                 F                       T      | default case notting to do |
-          
+
     3     F                 T                       F      | shoe msg ; and set exposure_auto true in nodemap |
 
     4     F                 T                       T      | print param msg
@@ -221,12 +224,12 @@ void ArenaCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
     6     T                 F                       T      | set default exposure_auto to false silently  |
 
     7     T                 T                       F      | show param msg
-              
+
     8     T                 T                       T      | show ignore msg; show param msg ;set to false |
   */
   auto exposure_auto_given = nh.hasParam("exposure_auto");
   nh.getParam("exposure_auto", exposure_auto_);
-  
+
   //1 FFF (exposure_auto_ 's default value is not set to true)
 
   // 2 FFT
@@ -252,7 +255,7 @@ void ArenaCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
   // 6 TFT
   else if(exposure_given_  && !exposure_auto_given && exposure_auto_)
   {
-    exposure_auto_ = false; // change because it defaults to true; 
+    exposure_auto_ = false; // change because it defaults to true;
     //no msg it is not take from the param server
   }
   // 7 TTF
@@ -275,7 +278,7 @@ void ArenaCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
     1     F                 F                       F      | default value issue  |
 
     2     F                 F                       T      | default case notting to do |
-          
+
     3     F                 T                       F      | shoe msg ; and set gain_auto true in nodemap |
 
     4     F                 T                       T      | print param msg
@@ -285,13 +288,13 @@ void ArenaCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
     6     T                 F                       T      | set default gain_auto to false silently  |
 
     7     T                 T                       F      | show param msg
-              
+
     8     T                 T                       T      | show ignore msg; show param msg ;set to false |
   */
 
   auto gain_auto_given = nh.hasParam("gain_auto");
   nh.getParam("gain_auto", gain_auto_);
-  
+
   //1 FFF (gain_auto_ 's default value is not set to true)
 
   // 2 FFT
@@ -317,7 +320,7 @@ void ArenaCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
   // 6 TFT
   else if(gain_given_  && !gain_auto_given && gain_auto_)
   {
-    gain_auto_ = false; // change because it defaults to true; 
+    gain_auto_ = false; // change because it defaults to true;
     //no msg it is not take from the param server
   }
   // 7 TTF
@@ -332,7 +335,7 @@ void ArenaCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
     ROS_WARN_STREAM("gain_auto is ignored because gain is given.");
   }
 
-  
+
   // ##########################
 
   nh.param<double>("exposure_search_timeout", exposure_search_timeout_, 5.);
@@ -343,9 +346,24 @@ void ArenaCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
     nh.getParam("gige/mtu_size", mtu_size_);
   }
 
+  if (nh.hasParam("gige/frame_transmission_delay_"))
+  {
+    nh.getParam("gige/frame_transmission_delay_", frame_transmission_delay_);
+  }
+
   if (nh.hasParam("gige/inter_pkg_delay"))
   {
     nh.getParam("gige/inter_pkg_delay", inter_pkg_delay_);
+  }
+
+  if (nh.hasParam("gige/stream_auto_negotiate_packet_size"))
+  {
+    nh.getParam("gige/stream_auto_negotiate_packet_size", stream_auto_negotiate_packet_size_);
+  }
+
+  if (nh.hasParam("gige/stream_packet_resend_enable"))
+  {
+    nh.getParam("gige/stream_packet_resend_enable", stream_packet_resend_enable_);
   }
 
   std::string shutter_param_string;
