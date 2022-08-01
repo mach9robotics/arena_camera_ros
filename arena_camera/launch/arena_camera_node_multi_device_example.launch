@@ -40,14 +40,14 @@
         <param name="device_user_id" type="string" value="front"/>
         <param name="camera_frame" type="string" value="cam_front"/>
         <param name="image_encoding" type="string" value="rgb8"/>
-        <param name="frame_rate" type="double" value="10.0"/>
+        <param name="frame_rate" type="double" value="5.0"/>
         <param name="exposure" type="double" value="5000.0"/>
         <param name="gain" type="double" value="0.1"/>
         <param name="exposure_auto" type="bool" value="false"/>
         <param name="gain_auto" type="bool" value="false"/>
         <param name="gige/mtu_size" type="int" value="9000"/>
-        <param name="gige/frame_transmission_delay" type="int" value="128000"/>
-        <param name="gige/inter_pkg_delay" type="int" value="32000"/>
+        <param name="gige/frame_transmission_delay" type="int" value="120000"/>
+        <param name="gige/inter_pkg_delay" type="int" value="30000"/>
         <param name="gige/stream_auto_negotiate_packet_size" type="bool" value="false"/>
         <param name="gige/stream_packet_resend_enable" type="bool" value="false"/>
         <param name="gige/ptp_enable" type="bool" value="true"/>
@@ -58,14 +58,14 @@
         <param name="device_user_id" type="string" value="cam_back"/>
         <param name="camera_frame" type="string" value="test"/>
         <param name="image_encoding" type="string" value="rgb8"/>
-        <param name="frame_rate" type="double" value="10.0"/>
+        <param name="frame_rate" type="double" value="5.0"/>
         <param name="exposure" type="double" value="5000.0"/>
         <param name="gain" type="double" value="0.1"/>
         <param name="exposure_auto" type="bool" value="false"/>
         <param name="gain_auto" type="bool" value="false"/>
         <param name="gige/mtu_size" type="int" value="9000"/>
-        <param name="gige/frame_transmission_delay" type="int" value="128000"/>
-        <param name="gige/inter_pkg_delay" type="int" value="32000"/>
+        <param name="gige/frame_transmission_delay" type="int" value="120000"/>
+        <param name="gige/inter_pkg_delay" type="int" value="30000"/>
         <param name="gige/stream_auto_negotiate_packet_size" type="bool" value="false"/>
         <param name="gige/stream_packet_resend_enable" type="bool" value="false"/>
         <param name="gige/ptp_enable" type="bool" value="true"/>
@@ -76,14 +76,14 @@
         <param name="device_user_id" type="string" value="left"/>
         <param name="camera_frame" type="string" value="cam_left"/>
         <param name="image_encoding" type="string" value="rgb8"/>
-        <param name="frame_rate" type="double" value="10.0"/>
+        <param name="frame_rate" type="double" value="5.0"/>
         <param name="exposure" type="double" value="5000.0"/>
         <param name="gain" type="double" value="0.1"/>
         <param name="exposure_auto" type="bool" value="false"/>
         <param name="gain_auto" type="bool" value="false"/>
         <param name="gige/mtu_size" type="int" value="9000"/>
-        <param name="gige/frame_transmission_delay" type="int" value="128000"/>
-        <param name="gige/inter_pkg_delay" type="int" value="64000"/>
+        <param name="gige/frame_transmission_delay" type="int" value="120000"/>
+        <param name="gige/inter_pkg_delay" type="int" value="60000"/>
         <param name="gige/stream_auto_negotiate_packet_size" type="bool" value="false"/>
         <param name="gige/stream_packet_resend_enable" type="bool" value="false"/>
         <param name="gige/ptp_enable" type="bool" value="true"/>
@@ -94,14 +94,14 @@
         <param name="device_user_id" type="string" value="right"/>
         <param name="camera_frame" type="string" value="cam_right"/>
         <param name="image_encoding" type="string" value="rgb8"/>
-        <param name="frame_rate" type="double" value="10.0"/>
+        <param name="frame_rate" type="double" value="5.0"/>
         <param name="exposure" type="double" value="5000.0"/>
         <param name="gain" type="double" value="0.1"/>
         <param name="exposure_auto" type="bool" value="false"/>
         <param name="gain_auto" type="bool" value="false"/>
         <param name="gige/mtu_size" type="int" value="9000"/>
-        <param name="gige/frame_transmission_delay" type="int" value="128000"/>
-        <param name="gige/inter_pkg_delay" type="int" value="96000"/>
+        <param name="gige/frame_transmission_delay" type="int" value="120000"/>
+        <param name="gige/inter_pkg_delay" type="int" value="90000"/>
         <param name="gige/stream_auto_negotiate_packet_size" type="bool" value="false"/>
         <param name="gige/stream_packet_resend_enable" type="bool" value="false"/>
         <param name="gige/ptp_enable" type="bool" value="true"/>
