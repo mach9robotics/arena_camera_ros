@@ -346,9 +346,9 @@ void ArenaCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
     nh.getParam("gige/mtu_size", mtu_size_);
   }
 
-  if (nh.hasParam("gige/frame_transmission_delay_"))
+  if (nh.hasParam("gige/frame_transmission_delay"))
   {
-    nh.getParam("gige/frame_transmission_delay_", frame_transmission_delay_);
+    nh.getParam("gige/frame_transmission_delay", frame_transmission_delay_);
   }
 
   if (nh.hasParam("gige/inter_pkg_delay"))
@@ -364,6 +364,11 @@ void ArenaCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
   if (nh.hasParam("gige/stream_packet_resend_enable"))
   {
     nh.getParam("gige/stream_packet_resend_enable", stream_packet_resend_enable_);
+  }
+
+  if (nh.hasParam("gige/ptp_enable"))
+  {
+    nh.getParam("gige/ptp_enable", ptp_enable_);
   }
 
   std::string shutter_param_string;
