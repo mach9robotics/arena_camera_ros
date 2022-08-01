@@ -275,6 +275,7 @@ public:
 
   bool stream_auto_negotiate_packet_size_;
   bool stream_packet_resend_enable_;
+  bool ptp_enable_ = false;
 
   /**
    Shutter mode

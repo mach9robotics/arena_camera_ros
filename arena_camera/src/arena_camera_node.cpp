@@ -425,6 +425,14 @@ bool ArenaCameraNode::startGrabbing()
         arena_camera_parameter_set_.stream_packet_resend_enable_);
     }
 
+    if (arena_camera_parameter_set_.ptp_enable_)
+    {
+      Arena::SetNodeValue<bool>(pNodeMap, "PtpEnable",
+        arena_camera_parameter_set_.ptp_enable_);
+      std::string ptp_status = Arena::GetNodeValue<GenICam::gcstring>(pNodeMap, "PtpStatus").c_str();
+      ROS_INFO("Confirmed device ptpstatus: %s", ptp_status.c_str());
+    }
+
     //
     // MTU
     //

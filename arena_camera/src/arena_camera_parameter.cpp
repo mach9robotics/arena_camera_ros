@@ -366,6 +366,11 @@ void ArenaCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
     nh.getParam("gige/stream_packet_resend_enable", stream_packet_resend_enable_);
   }
 
+  if (nh.hasParam("gige/ptp_enable"))
+  {
+    nh.getParam("gige/ptp_enable", ptp_enable_);
+  }
+
   std::string shutter_param_string;
   nh.param<std::string>("shutter_mode", shutter_param_string, "");
   if (shutter_param_string == "rolling")

@@ -127,3 +127,5 @@ gige:
 
   stream_auto_negotiate_packet_size: false
   stream_packet_resend_enable: false
+
+  ptp_enable: true
