@@ -346,9 +346,9 @@ void ArenaCameraParameter::readFromRosParameterServer(const ros::NodeHandle& nh)
     nh.getParam("gige/mtu_size", mtu_size_);
   }
 
-  if (nh.hasParam("gige/frame_transmission_delay_"))
+  if (nh.hasParam("gige/frame_transmission_delay"))
   {
-    nh.getParam("gige/frame_transmission_delay_", frame_transmission_delay_);
+    nh.getParam("gige/frame_transmission_delay", frame_transmission_delay_);
   }
 
   if (nh.hasParam("gige/inter_pkg_delay"))
