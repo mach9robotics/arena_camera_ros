@@ -833,7 +833,17 @@ bool ArenaCameraNode::grabImage()
     img_raw_msg_.data.resize(img_raw_msg_.height * img_raw_msg_.step);
     memcpy(&img_raw_msg_.data[0], pImage_->GetData(), img_raw_msg_.height * img_raw_msg_.step);
 
-    img_raw_msg_.header.stamp = ros::Time::now();
+    if (arena_camera_parameter_set_.ptp_enable_)
+    {
+      ROS_INFO_ONCE("Using camera timestamp as ptp is enabled");
+      uint64_t timestamp_ns = pImage_->GetTimestampNs();
+      img_raw_msg_.header.stamp = ros::Time(timestamp_ns / (int)1e9, timestamp_ns % (int)1e9);
+    }
+    else
+    {
+      ROS_WARN_ONCE("Using ros::Time::now() as ptp is not enabled");
+      img_raw_msg_.header.stamp = ros::Time::now();
+    }
 
     pDevice_->RequeueBuffer(pImage_);
     return true;
